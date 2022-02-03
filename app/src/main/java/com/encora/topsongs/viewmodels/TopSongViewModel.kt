@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.encora.topsongs.database.TopSongsDatabase
 import com.encora.topsongs.network.model.Song
 import com.encora.topsongs.repository.TopSongListRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -21,11 +22,11 @@ class TopSongViewModel : ViewModel() {
         Log.d("Something went wrong: ", exception?.message ?: "")
     }
 
-    fun fetTopSongs() {
+    fun fetTopSongs(database: TopSongsDatabase?) {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            val feed = repository.fetTopSongs()
+            val topSongs = repository.fetTopSongs(database)
             withContext(Dispatchers.Main) {
-                topSongsData.value = feed.songList
+                topSongsData.value = topSongs
             }
         }
     }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.encora.topsongs.R
+import com.encora.topsongs.database.TopSongsDatabase
 import com.encora.topsongs.viewmodels.TopSongViewModel
 import com.encora.topsongs.viewmodels.TopSongViewModelFactory
 import kotlinx.android.synthetic.main.fragment_top_songs_list.*
@@ -26,9 +27,11 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) {
     }
 
     private fun setUpViewModelAndListenForChanges() {
+        val database  = TopSongsDatabase.getInstance(requireContext())
+       // database?.openHelper?.writableDatabase
         val factory = TopSongViewModelFactory()
         val topSongViewModel = ViewModelProviders.of(this, factory)[TopSongViewModel::class.java]
-        topSongViewModel.fetTopSongs()
+        topSongViewModel.fetTopSongs(database)
         topSongViewModel.getTopSongs().observe(viewLifecycleOwner, {
             adapter?.setData(it)
         })

@@ -16,5 +16,5 @@ data class Feed(
     var icon: String? = "",
 
     @field:ElementList(required = false, name = "entry", entry = "entry", inline = true, empty = true)
-    var songList: List<Song> = mutableListOf()
+    var topSongsList: MutableList<Song> = mutableListOf()
 )
