@@ -1,9 +1,12 @@
 package com.encora.topsongs.network.model
 
+import android.os.Parcelable
 import com.encora.topsongs.database.TopSongTableRow
+import kotlinx.parcelize.Parcelize
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
+@Parcelize
 @Root(name = "entry", strict = false)
 data class Song(
     @field:Element(name = "id", required = false)
@@ -17,7 +20,7 @@ data class Song(
 
     @field:Element(name = "link", required = false)
     var link: String? = null
-)
+) : Parcelable
 
 fun Song.convertToDatabaseTableRow() : TopSongTableRow{
     return TopSongTableRow(title = title)

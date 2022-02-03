@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.encora.topsongs.R
 import com.encora.topsongs.network.model.Song
-import kotlinx.android.synthetic.main.item_top_song.view.*
 
 class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerView.Adapter<TopSongsListAdapter.TopSongsViewHolder>() {
 
@@ -17,7 +16,7 @@ class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerV
         val textView: TextView?
 
         init {
-            textView = view.item_top_song_name
+            textView = view.findViewById(R.id.item_top_song_name)
         }
     }
 

@@ -6,16 +6,17 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.encora.topsongs.R
 import com.encora.topsongs.database.TopSongsDatabase
 import com.encora.topsongs.network.model.Song
 import com.encora.topsongs.viewmodels.TopSongViewModel
 import com.encora.topsongs.viewmodels.TopSongViewModelFactory
-import kotlinx.android.synthetic.main.fragment_top_songs_list.*
 
-class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) , OnItemClickListener{
+class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list), OnItemClickListener {
 
     private var adapter: TopSongsListAdapter? = null
 
@@ -29,8 +30,8 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) , OnItem
     }
 
     private fun setUpViewModelAndListenForChanges() {
-        val database  = TopSongsDatabase.getInstance(requireContext())
-       // database?.openHelper?.writableDatabase
+        val database = TopSongsDatabase.getInstance(requireContext())
+        // database?.openHelper?.writableDatabase
         val factory = TopSongViewModelFactory()
         val topSongViewModel = ViewModelProviders.of(this, factory)[TopSongViewModel::class.java]
         topSongViewModel.fetTopSongs(database)
@@ -41,8 +42,8 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) , OnItem
 
     private fun populateTopSongsList() {
         adapter = TopSongsListAdapter(this)
-        fragment_top_songs_list_rv.layoutManager = LinearLayoutManager(requireContext())
-        fragment_top_songs_list_rv.adapter = adapter
+        view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)?.layoutManager = LinearLayoutManager(requireContext())
+        view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)?.adapter = adapter
         setUpDecorationForList()
     }
 
@@ -52,9 +53,11 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) , OnItem
         if (drawable != null) {
             dividerItemDecoration.setDrawable(drawable)
         }
-        fragment_top_songs_list_rv.addItemDecoration(dividerItemDecoration)
+        view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)?.addItemDecoration(dividerItemDecoration)
     }
 
     override fun onItemClick(item: Song?) {
+        val action = TopSongsListFragmentDirections.actionTopSongListFragmentToTopSongDetails().setSelectedSong(item)
+        view?.findNavController()?.navigate(action)
     }
 }

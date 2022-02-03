@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/topSongListFragment">
+
+    <fragment
+        android:id="@+id/topSongListFragment"
+        android:name="com.encora.topsongs.ui.TopSongsListFragment"
+        android:label="Top Songs"
+        tools:layout="@layout/fragment_top_songs_list">
+
+        <action
+            android:id="@+id/action_topSongListFragment_to_topSongDetails"
+            app:destination="@id/topSongDetails" >
+
+            <argument
+                android:name="selectedSong"
+                android:defaultValue="@null"
+                app:nullable="true"
+                app:argType="com.encora.topsongs.network.model.Song" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/topSongDetails"
+        android:name="com.encora.topsongs.ui.TopSongsDetailsFragment"
+        android:label="Details Page"
+        tools:layout="@layout/fragment_song_details">
+
+        <argument
+            android:name="selectedSong"
+            android:defaultValue="@null"
+            app:nullable="true"
+            app:argType="com.encora.topsongs.network.model.Song" />
+    </fragment>
+</navigation>
