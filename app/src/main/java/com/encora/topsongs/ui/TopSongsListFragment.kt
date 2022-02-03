@@ -22,13 +22,14 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) {
 
     private fun init() {
         populateTopSongsList()
+        setUpViewModelAndListenForChanges()
+    }
 
+    private fun setUpViewModelAndListenForChanges() {
         val factory = TopSongViewModelFactory()
-        val mainViewModel = ViewModelProviders.of(this, factory)[TopSongViewModel::class.java]
-
-        mainViewModel.fetTopSongs()
-
-        mainViewModel.getTopSongs().observe(viewLifecycleOwner, {
+        val topSongViewModel = ViewModelProviders.of(this, factory)[TopSongViewModel::class.java]
+        topSongViewModel.fetTopSongs()
+        topSongViewModel.getTopSongs().observe(viewLifecycleOwner, {
             adapter?.setData(it)
         })
     }
