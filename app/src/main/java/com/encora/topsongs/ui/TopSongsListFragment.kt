@@ -37,10 +37,10 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) {
         adapter = TopSongsListAdapter()
         fragment_top_songs_list_rv.layoutManager = LinearLayoutManager(requireContext())
         fragment_top_songs_list_rv.adapter = adapter
-        setUpDecorationForRestaurantsList()
+        setUpDecorationForList()
     }
 
-    private fun setUpDecorationForRestaurantsList() {
+    private fun setUpDecorationForList() {
         val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
         val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.shape_verticle_space)
         if (drawable != null) {
