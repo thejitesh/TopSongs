@@ -6,7 +6,9 @@ import com.bumptech.glide.Glide
 
 object ImageUtils {
 
-    fun loadImage(context: Context, url: String, imageView: ImageView) {
-        Glide.with(context).load(url).into(imageView);
+    fun loadImage(context: Context, url: String?, imageView: ImageView) {
+        if (url != null) {
+            Glide.with(context).load(url).into(imageView)
+        }
     }
 }

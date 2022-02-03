@@ -44,9 +44,20 @@ data class AudioUrl(
 ) : Parcelable
 
 fun Song.convertToDatabaseTableRow(): TopSongTableRow {
+    val tmpAudioLink = when {
+        audioUrlList.size > 1 -> {
+            audioUrlList[1].url
+        }
+        audioUrlList.isNotEmpty() -> {
+            audioUrlList.first().url
+        }
+        else -> {
+            "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/0b/8f/56/0b8f5687-c65c-58cd-ed4a-22956d9cb71d/mzaf_5917722721771131843.plus.aac.p.m4a"
+        }
+    }
     return TopSongTableRow(
         title = title,
         imageUrl = imageList.first().url,
-        audioLink = audioUrlList.first().url
+        audioLink = tmpAudioLink
     )
 }
