@@ -28,3 +28,6 @@ class TopSongListRepository {
         return topSongsList;
     }
 }
+
+//Mapping from Network model to DB model approach : 
+//https://github.com/android/architecture-components-samples/issues/388#issuecomment-790488708
