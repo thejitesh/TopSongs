@@ -9,25 +9,28 @@ import com.encora.topsongs.repository.TopSongListRepository
 import com.encora.topsongs.network.model.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TopSongViewModel : ViewModel() {
 
     //DI can be used to inject
     private val repository = TopSongListRepository()
-    private val topSongs = MutableLiveData<List<Song>>()
+    private val topSongsData = MutableLiveData<List<Song>>()
 
     fun fetTopSongs() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val feed = repository.fetTopSongs()
-                Log.d("", "")
+                withContext(Dispatchers.Main) {
+                    topSongsData.value = feed.songList
+                }
             } catch (e: Exception) {
-                Log.d("", "")
+                Log.d("", "" + e)
             }
         }
     }
 
     fun getTopSongs(): LiveData<List<Song>> {
-        return topSongs
+        return topSongsData
     }
 }
