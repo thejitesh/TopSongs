@@ -26,7 +26,7 @@ class TopSongViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             val topSongs = repository.fetTopSongs(database)
             withContext(Dispatchers.Main) {
-                topSongsData.value = topSongs
+                topSongsData.value = topSongs!!
             }
         }
     }
