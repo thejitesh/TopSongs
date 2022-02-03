@@ -1,6 +1,7 @@
 package com.encora.topsongs.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -9,11 +10,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.encora.topsongs.R
 import com.encora.topsongs.database.TopSongsDatabase
+import com.encora.topsongs.network.model.Song
 import com.encora.topsongs.viewmodels.TopSongViewModel
 import com.encora.topsongs.viewmodels.TopSongViewModelFactory
 import kotlinx.android.synthetic.main.fragment_top_songs_list.*
 
-class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) {
+class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) , OnItemClickListener{
 
     private var adapter: TopSongsListAdapter? = null
 
@@ -38,7 +40,7 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) {
     }
 
     private fun populateTopSongsList() {
-        adapter = TopSongsListAdapter()
+        adapter = TopSongsListAdapter(this)
         fragment_top_songs_list_rv.layoutManager = LinearLayoutManager(requireContext())
         fragment_top_songs_list_rv.adapter = adapter
         setUpDecorationForList()
@@ -51,5 +53,8 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list) {
             dividerItemDecoration.setDrawable(drawable)
         }
         fragment_top_songs_list_rv.addItemDecoration(dividerItemDecoration)
+    }
+
+    override fun onItemClick(item: Song?) {
     }
 }

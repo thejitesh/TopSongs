@@ -9,7 +9,7 @@ import com.encora.topsongs.R
 import com.encora.topsongs.network.model.Song
 import kotlinx.android.synthetic.main.item_top_song.view.*
 
-class TopSongsListAdapter : RecyclerView.Adapter<TopSongsListAdapter.TopSongsViewHolder>() {
+class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerView.Adapter<TopSongsListAdapter.TopSongsViewHolder>() {
 
     private var songsList = mutableListOf<Song>()
 
@@ -32,6 +32,9 @@ class TopSongsListAdapter : RecyclerView.Adapter<TopSongsListAdapter.TopSongsVie
 
     override fun onBindViewHolder(holder: TopSongsViewHolder, position: Int) {
         holder.textView?.text = songsList[position].title
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(songsList[position])
+        }
     }
 
     override fun getItemCount() = songsList.size
