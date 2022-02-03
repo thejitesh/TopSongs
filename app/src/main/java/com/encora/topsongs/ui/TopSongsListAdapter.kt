@@ -22,6 +22,7 @@ class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerV
 
     fun setData(list: List<Song>?) {
         if (!list.isNullOrEmpty()) {
+            songsList.clear()
             songsList.addAll(list)
             notifyDataSetChanged()
         }
