@@ -18,7 +18,7 @@ data class Song @JvmOverloads constructor(
     var name: String? = "",
 
     @field:ElementList(required = false, inline = true, empty = true)
-    var link: MutableList<Link> = mutableListOf(),
+    var audioUrlList: MutableList<AudioUrl> = mutableListOf(),
 
     @field:ElementList(required = false, inline = true, empty = true)
     var imageList: MutableList<Image> = mutableListOf()
@@ -32,17 +32,21 @@ data class Image(
     var height: String = "",
 
     @field:Text
-    var imageUrl: String = ""
+    var url: String = ""
 ) : Parcelable
 
 
 @Parcelize
 @Root(name = "link", strict = false)
-data class Link(
+data class AudioUrl(
     @field:Attribute(name = "href", required = false)
-    var href: String = "",
+    var url: String = "",
 ) : Parcelable
 
 fun Song.convertToDatabaseTableRow(): TopSongTableRow {
-    return TopSongTableRow(title = title)
+    return TopSongTableRow(
+        title = title,
+        imageUrl = imageList.first().url,
+        audioLink = audioUrlList.first().url
+    )
 }

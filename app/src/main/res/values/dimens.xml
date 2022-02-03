@@ -2,5 +2,5 @@
 <resources>
     <dimen name="padding_8dp">8dp</dimen>
     <dimen name="margin_8">8dp</dimen>
-    <dimen name="text_size_10">17dp</dimen>
+    <dimen name="text_size_10">10dp</dimen>
 </resources>

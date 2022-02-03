@@ -3,19 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#0F686868">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_top_song_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/margin_8"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item_top_song_name"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        android:gravity="start"
         android:padding="@dimen/padding_8dp"
         android:textColor="#000000"
-        android:gravity="start"
-        android:background="#E8E5E5"
         android:textSize="@dimen/text_size_10"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_top_song_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Temp d sdf dsfg dsgfdsfg " />
 </androidx.constraintlayout.widget.ConstraintLayout>
