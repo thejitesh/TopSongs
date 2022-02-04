@@ -8,21 +8,23 @@ import androidx.lifecycle.viewModelScope
 import com.encora.topsongs.database.TopSongsDatabase
 import com.encora.topsongs.network.model.Song
 import com.encora.topsongs.repository.TopSongListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TopSongViewModel : ViewModel() {
+@HiltViewModel
+class TopSongViewModel @Inject constructor() : ViewModel() {
 
-    //DI can be used to inject
-    private val repository = TopSongListRepository()
     private val topSongsData = MutableLiveData<List<Song>>()
+
     private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
         Log.d("Something went wrong: ", exception?.message ?: "")
     }
 
-    fun fetTopSongs(database: TopSongsDatabase?) {
+    fun fetTopSongs(database: TopSongsDatabase?, repository: TopSongListRepository) {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             val topSongs = repository.fetTopSongs(database)
             withContext(Dispatchers.Main) {

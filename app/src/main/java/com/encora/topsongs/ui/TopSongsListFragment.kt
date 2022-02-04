@@ -12,12 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.encora.topsongs.R
 import com.encora.topsongs.database.TopSongsDatabase
 import com.encora.topsongs.network.model.Song
+import com.encora.topsongs.repository.TopSongListRepository
 import com.encora.topsongs.viewmodels.TopSongViewModel
 import com.encora.topsongs.viewmodels.TopSongViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list), OnItemClickListener {
 
     private var adapter: TopSongsListAdapter? = null
+
+    @Inject
+    lateinit var repository: TopSongListRepository
+
+    @Inject
+    lateinit var database: TopSongsDatabase
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         init()
@@ -29,10 +39,9 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list), OnItemC
     }
 
     private fun setUpViewModelAndListenForChanges() {
-        val database = TopSongsDatabase.getInstance(requireContext())
         val factory = TopSongViewModelFactory()
         val topSongViewModel = ViewModelProviders.of(this, factory)[TopSongViewModel::class.java]
-        topSongViewModel.fetTopSongs(database)
+        topSongViewModel.fetTopSongs(database , repository)
         topSongViewModel.getTopSongs().observe(viewLifecycleOwner, {
             adapter?.setData(it)
         })
@@ -40,7 +49,7 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list), OnItemC
 
     private fun populateTopSongsList() {
         adapter = TopSongsListAdapter(this)
-        val topSongsList =  view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)
+        val topSongsList = view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)
         topSongsList?.layoutManager = LinearLayoutManager(requireContext())
         topSongsList?.adapter = adapter
         setUpDecorationForList()
