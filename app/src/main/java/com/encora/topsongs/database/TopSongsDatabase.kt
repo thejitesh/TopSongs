@@ -17,7 +17,6 @@ abstract class TopSongsDatabase : RoomDatabase() {
         private var instance: TopSongsDatabase? = null
         private val LOCK = Any()
 
-
         fun getInstance(context: Context): TopSongsDatabase? {
             if (instance == null) {
                 synchronized(LOCK) {

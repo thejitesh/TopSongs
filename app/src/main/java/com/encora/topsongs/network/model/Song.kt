@@ -43,6 +43,8 @@ data class AudioUrl(
     var url: String = "",
 ) : Parcelable
 
+//Mapping from Network model to DB model approach :
+//https://github.com/android/architecture-components-samples/issues/388#issuecomment-790488708
 fun Song.convertToDatabaseTableRow(): TopSongTableRow {
     val tmpAudioLink = when {
         audioUrlList.size > 1 -> {

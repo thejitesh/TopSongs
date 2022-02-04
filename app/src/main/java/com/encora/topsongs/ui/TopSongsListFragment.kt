@@ -1,7 +1,6 @@
 package com.encora.topsongs.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -31,7 +30,6 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list), OnItemC
 
     private fun setUpViewModelAndListenForChanges() {
         val database = TopSongsDatabase.getInstance(requireContext())
-        // database?.openHelper?.writableDatabase
         val factory = TopSongViewModelFactory()
         val topSongViewModel = ViewModelProviders.of(this, factory)[TopSongViewModel::class.java]
         topSongViewModel.fetTopSongs(database)
@@ -42,8 +40,9 @@ class TopSongsListFragment : Fragment(R.layout.fragment_top_songs_list), OnItemC
 
     private fun populateTopSongsList() {
         adapter = TopSongsListAdapter(this)
-        view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)?.layoutManager = LinearLayoutManager(requireContext())
-        view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)?.adapter = adapter
+        val topSongsList =  view?.findViewById<RecyclerView>(R.id.fragment_top_songs_list_rv)
+        topSongsList?.layoutManager = LinearLayoutManager(requireContext())
+        topSongsList?.adapter = adapter
         setUpDecorationForList()
     }
 

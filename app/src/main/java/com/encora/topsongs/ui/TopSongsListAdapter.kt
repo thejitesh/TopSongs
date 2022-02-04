@@ -14,12 +14,6 @@ class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerV
 
     private var songsList = mutableListOf<Song>()
 
-    inner class TopSongsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.item_top_song_name)
-        val imageView: ImageView = view.findViewById(R.id.item_top_song_image)
-
-    }
-
     fun setData(list: List<Song>?) {
         if (!list.isNullOrEmpty()) {
             songsList.clear()
@@ -27,6 +21,8 @@ class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerV
             notifyDataSetChanged()
         }
     }
+
+    override fun getItemCount() = songsList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TopSongsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_top_song, parent, false))
 
@@ -36,10 +32,13 @@ class TopSongsListAdapter(private val listener: OnItemClickListener) : RecyclerV
         holder.itemView.setOnClickListener {
             listener.onItemClick(topSongItem)
         }
-        if(!topSongItem.imageList.isNullOrEmpty()) {
+        if (!topSongItem.imageList.isNullOrEmpty()) {
             ImageUtils.loadImage(holder.itemView.context, topSongItem.imageList[0].url, holder.imageView)
         }
     }
 
-    override fun getItemCount() = songsList.size
+    inner class TopSongsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textView: TextView = view.findViewById(R.id.item_top_song_name)
+        val imageView: ImageView = view.findViewById(R.id.item_top_song_image)
+    }
 }

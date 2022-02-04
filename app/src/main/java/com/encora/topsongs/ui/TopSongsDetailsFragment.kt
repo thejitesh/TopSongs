@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.encora.topsongs.R
+import com.encora.topsongs.network.model.Song
 import com.encora.topsongs.utils.ImageUtils
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,7 @@ class TopSongsDetailsFragment : Fragment(R.layout.fragment_song_details) {
 
     private val topSongsDetailsFragmentArgs: TopSongsDetailsFragmentArgs by navArgs()
     var mediaPlayer: MediaPlayer? = null
+
     @Volatile
     var isMediaReadyToPlay: Boolean = false
 
@@ -30,11 +32,28 @@ class TopSongsDetailsFragment : Fragment(R.layout.fragment_song_details) {
 
         view.findViewById<TextView>(R.id.fragment_song_details_name).text = selectedSong?.title
 
-        ImageUtils.loadImage(
-            requireContext(), selectedSong?.imageList?.first()?.url,
-            view.findViewById<ImageView>(R.id.fragment_song_details_image)
-        )
+        ImageUtils.loadImage(requireContext(), selectedSong?.imageList?.first()?.url, view.findViewById<ImageView>(R.id.fragment_song_details_image))
 
+        setUpMediaPlayer(selectedSong, view)
+    }
+
+    private fun setUpMediaPlayer(selectedSong: Song?, view: View) {
+        createMediaPlayer(selectedSong)
+        prepareMediaPlayer()
+        handlePlayPauseForMediaPlayer(view)
+    }
+
+    private fun prepareMediaPlayer() {
+        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
+            Log.d("Something went wrong while prepairing Player ", exception?.message ?: "")
+        }
+        lifecycleScope.launch(Dispatchers.Default + exceptionHandler) {
+            mediaPlayer?.prepare() // might take long! (for buffering, etc)
+            isMediaReadyToPlay = true
+        }
+    }
+
+    private fun createMediaPlayer(selectedSong: Song?) {
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
@@ -44,17 +63,9 @@ class TopSongsDetailsFragment : Fragment(R.layout.fragment_song_details) {
             )
             setDataSource(selectedSong?.audioUrlList?.get(0)?.url)
         }
+    }
 
-
-        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, exception ->
-            Log.d("Something went wrong while prepairing Player ", exception?.message ?: "")
-        }
-
-        lifecycleScope.launch(Dispatchers.Default + exceptionHandler) {
-            mediaPlayer?.prepare() // might take long! (for buffering, etc)
-            isMediaReadyToPlay = true
-        }
-
+    private fun handlePlayPauseForMediaPlayer(view: View) {
         view.findViewById<TextView>(R.id.fragment_song_details_play_pause).setOnClickListener {
             if (isMediaReadyToPlay) {
                 if (mediaPlayer?.isPlaying == true) {

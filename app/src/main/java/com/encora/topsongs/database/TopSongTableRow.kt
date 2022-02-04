@@ -15,6 +15,8 @@ data class TopSongTableRow(
     val audioLink: String? = null,
 )
 
+//Mapping from Network model to DB model approach :
+//https://github.com/android/architecture-components-samples/issues/388#issuecomment-790488708
 fun TopSongTableRow.convertToNetworkModel(): Song {
     return Song(
         title = title,

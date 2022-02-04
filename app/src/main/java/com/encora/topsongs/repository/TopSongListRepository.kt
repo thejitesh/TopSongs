@@ -8,6 +8,8 @@ import com.encora.topsongs.network.model.convertToDatabaseTableRow
 
 class TopSongListRepository {
 
+    //Mapping from Network model to DB model approach :
+    //https://github.com/android/architecture-components-samples/issues/388#issuecomment-790488708
     suspend fun fetTopSongs(database: TopSongsDatabase?): List<Song>? {
         var topSongsList = mutableListOf<Song>()
         val songsDao = database?.getTopSongsDao()
@@ -28,6 +30,3 @@ class TopSongListRepository {
         return topSongsList;
     }
 }
-
-//Mapping from Network model to DB model approach : 
-//https://github.com/android/architecture-components-samples/issues/388#issuecomment-790488708
